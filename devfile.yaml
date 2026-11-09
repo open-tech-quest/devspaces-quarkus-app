@@ -1,0 +1,92 @@
+schemaVersion: 2.2.0
+metadata:
+  name: open-tech-quest
+  displayName: Open Tech Quest - Quarkus App
+  description: Quarkus 3.x application for the OpenTechQuest Hands-on Day 2026
+  tags:
+    - Quarkus
+    - Java
+    - Maven
+  language: Java
+  projectType: Quarkus
+
+components:
+  - name: tools
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi9-latest
+      memoryLimit: 4Gi
+      memoryRequest: 512Mi
+      cpuLimit: "2"
+      cpuRequest: 500m
+      mountSources: true
+      env:
+        - name: QUARKUS_HTTP_HOST
+          value: 0.0.0.0
+      endpoints:
+        - name: http-quarkus
+          targetPort: 8080
+          protocol: http
+          exposure: public
+        - name: debug
+          targetPort: 5005
+          protocol: http
+          exposure: none
+
+commands:
+  - id: show-workspace-flag
+    exec:
+      label: "0. Show workspace flag"
+      component: tools
+      commandLine: |
+        FLAG=$(python3 -c "
+        h=open('${PROJECT_SOURCE}/src/main/resources/.flag1').read().strip()
+        k='0p3nT3chQu35t!26'
+        d=bytes.fromhex(h)
+        print(''.join(chr(b^ord(k[i%len(k)])) for i,b in enumerate(d)))
+        ")
+        echo ""
+        echo "========================================================"
+        echo "  Challenge 1 complete — workspace is up!"
+        echo "  Flag: $FLAG"
+        echo "========================================================"
+        echo ""
+
+  - id: init-compile
+    exec:
+      label: "1. Init: Download dependencies"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ./mvnw -q dependency:resolve-plugins dependency:resolve -DskipTests
+
+  - id: build
+    exec:
+      label: "2. Build"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ./mvnw package -DskipTests
+
+  - id: run-dev
+    exec:
+      label: "3. Run (Quarkus Dev Mode)"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ./mvnw quarkus:dev -Ddebug=false
+
+  - id: run-dev-debug
+    exec:
+      label: "4. Run (Dev Mode + Remote Debug on port 5005)"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ./mvnw quarkus:dev
+
+  - id: test
+    exec:
+      label: "5. Test"
+      component: tools
+      workingDir: ${PROJECT_SOURCE}
+      commandLine: ./mvnw test
+
+events:
+  postStart:
+    - show-workspace-flag
+    - init-compile

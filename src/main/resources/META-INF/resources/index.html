@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Open Tech Quest</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:monospace;background:#0d1117;color:#c9d1d9;padding:2rem}
+h1{color:#58a6ff;font-size:1.5rem;margin-bottom:.25rem}
+.sub{color:#8b949e;margin-bottom:2rem;font-size:.9rem}
+.card{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:1.5rem;margin-bottom:1rem;max-width:640px}
+.card h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:.75rem}
+.flag{color:#3fb950;font-size:1.05rem;word-break:break-all}
+.pending{color:#f0883e}
+.loading{color:#484f58}
+.hint{color:#8b949e;font-size:.8rem;margin-bottom:.75rem}
+</style>
+</head>
+<body>
+<h1>Open Tech Quest</h1>
+<p class="sub">Hands-on Day 2026</p>
+
+<div class="card">
+  <h2>Challenge 2 &mdash; Application is running</h2>
+  <p class="hint">Start the app and reload this page. When the text below turns green, paste it as your answer in the challenge.</p>
+  <p id="f2" class="loading">loading&hellip;</p>
+</div>
+
+<div class="card">
+  <h2>Challenge 3 &mdash; Fix the Friday Deployer</h2>
+  <p class="hint">Fix the endpoint in <code>DeployFridayResource.java</code> to return HTTP 418, then reload this page. When the text below turns green, paste it as your answer in the challenge.</p>
+  <p id="f3" class="loading">loading&hellip;</p>
+</div>
+
+<script>
+(function(){var k="0p3nT3chQu35t!26",d=function(h){return h.match(/.{2}/g).map(function(x){return parseInt(x,16)}).map(function(b,i){return String.fromCharCode(b^k.charCodeAt(i%k.length))}).join("")};fetch("/api/flag").then(function(r){return r.text()}).then(function(t){var e=document.getElementById("f2");e.textContent=d(t);e.className="flag"});fetch("/api/deploy-friday").then(function(r){var s=r.status;return r.text().then(function(t){return{s:s,t:t}})}).then(function(x){var e=document.getElementById("f3");if(x.s===418){e.textContent=d(x.t);e.className="flag"}else{e.textContent="HTTP "+x.s+" — not fixed yet";e.className="pending"}})})();
+</script>
+</body>
+</html>

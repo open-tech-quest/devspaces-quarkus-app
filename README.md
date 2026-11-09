@@ -1,62 +1,45 @@
-# open-tech-quest
+# Open Tech Quest — Hands-on Day 2026
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Welcome to the **Open Tech Quest** challenge! You will work in **OpenShift Dev Spaces** to fix a critically broken REST endpoint.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+---
 
-## Running the application in dev mode
+## Step 1 — Get your workspace running
 
-You can run your application in dev mode that enables live coding using:
+This repository is configured for **OpenShift Dev Spaces**. Import it by pasting the repository URL into the Dev Spaces dashboard.
 
-```shell script
+Once your workspace is ready, the project opens automatically in VS Code. Check the terminal output for a message printed by the startup script.
+
+---
+
+## Step 2 — Start the application
+
+Quarkus supports **live coding**: the app recompiles and reloads automatically whenever you save a file — no restart needed.
+
+Run in the terminal:
+
+```shell
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+Or use the **"3. Run (Quarkus Dev Mode)"** command from the Dev Spaces command palette.
 
-## Packaging and running the application
+Once started, open the app in your browser using the preview link that Dev Spaces shows when port 8080 becomes available.
 
-The application can be packaged using:
+---
 
-```shell script
-./mvnw package
-```
+## Step 3 — Fix the endpoint
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+Open `src/main/java/com/redhat/DeployFridayResource.java`.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+The endpoint currently returns `200 OK` with `"yes"`. Fix it so the HTTP status code is **418**. Use the `ENCODED_FLAG` constant already present in the class as the response body.
 
-If you want to build an _über-jar_, execute the following command:
+After saving, Quarkus reloads automatically. Refresh the browser — when the fix is correct the page will reveal the flag.
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
+---
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## Useful Links
 
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/open-tech-quest-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+- [Quarkus REST guide](https://quarkus.io/guides/getting-started)
+- [JAX-RS Response API (Jakarta EE)](https://jakarta.ee/specifications/restful-ws/3.1/apidocs/jakarta/ws/rs/core/response)
+- [HTTP 418 — the most important status code](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/418)
