@@ -86,7 +86,3 @@ commands:
       workingDir: ${PROJECT_SOURCE}
       commandLine: ./mvnw test
 
-events:
-  postStart:
-    - show-workspace-flag
-    - init-compile
