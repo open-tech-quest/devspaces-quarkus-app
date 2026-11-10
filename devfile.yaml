@@ -32,7 +32,28 @@ components:
           protocol: http
           exposure: none
 
+events:
+  postStart:
+    - enable-java-standard-mode
+
 commands:
+  - id: enable-java-standard-mode
+    exec:
+      component: tools
+      commandLine: |
+        python3 -c "
+        import json,os
+        f='/checode/remote/data/Machine/settings.json'
+        os.makedirs(os.path.dirname(f),exist_ok=True)
+        try:
+            s=json.load(open(f))
+        except:
+            s={}
+        s['java.server.launchMode']='Standard'
+        s['java.configuration.updateBuildConfiguration']='automatic'
+        open(f,'w').write(json.dumps(s,indent=2))
+        "
+
   - id: show-workspace-flag
     exec:
       label: "0. Show workspace flag"
