@@ -24,6 +24,7 @@ nb-configuration.xml
 # Visual Studio Code
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .factorypath
 
 # OSX
