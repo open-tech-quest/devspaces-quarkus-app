@@ -25,8 +25,9 @@ components:
       endpoints:
         - name: http-quarkus
           targetPort: 8080
-          protocol: http
+          protocol: https
           exposure: public
+          secure: true
         - name: debug
           targetPort: 5005
           protocol: http
