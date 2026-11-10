@@ -22,6 +22,15 @@ components:
       env:
         - name: QUARKUS_HTTP_HOST
           value: 0.0.0.0
+      endpoints:
+        - name: http-quarkus
+          targetPort: 8080
+          protocol: http
+          exposure: internal
+        - name: debug
+          targetPort: 5005
+          protocol: http
+          exposure: none
 
 commands:
   - id: show-workspace-flag
