@@ -26,7 +26,7 @@ components:
         - name: http-quarkus
           targetPort: 8080
           protocol: http
-          exposure: internal
+          exposure: public
         - name: debug
           targetPort: 5005
           protocol: http
