@@ -10,6 +10,14 @@ metadata:
   language: Java
   projectType: Quarkus
 
+projects:
+  - name: devspaces-quarkus-app
+    git:
+      remotes:
+        origin: https://git.apps.elbe.redhat.ibmfusion.de/otq-1/devspaces-quarkus-app.git
+      checkoutFrom:
+        revision: main
+
 components:
   - name: tools
     container:
